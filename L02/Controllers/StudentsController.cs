@@ -11,20 +11,26 @@ namespace L02.webapi.Controllers
     public class StudentsController : ControllerBase {
         StudentsRepo students = new StudentsRepo();
 
-        [HttpGet]
+        [HttpGet("{id}")]
 
-        public List<Students> GetStudents()
-        {
-            return students.myStudents;
-        }
-
-        [HttpPut("{id}")] 
-
-        public Students UpdateStudent(int id, [FromBody] Students student)
+        public Students GetStudents(int id)
         {
             foreach (Students itr in students.myStudents) 
             {
-                if (itr.id == id) 
+                if (itr.id == id)
+                    return itr;
+            }
+
+            return null;
+        }
+
+        [HttpPut] 
+
+        public Students UpdateStudent([FromBody] Students student)
+        {
+            foreach (Students itr in students.myStudents) 
+            {
+                if (itr.id == student.id) 
                 {
                     itr.name = student.name;
                     itr.faculty = student.faculty;
